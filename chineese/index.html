@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Китайский с героем</title>
+<meta name="robots" content="noindex">
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff6e8;color:#2b2350;font:700 20px system-ui,-apple-system,sans-serif;text-align:center;padding:24px}</style>
+</head>
+<body>
+<div id="msg">Загружаю тренажёр… 🐉</div>
+<script>
+/* Загрузчик: подтягивает тренажёр и хранит его копию в браузере (на случай плохого интернета). */
+(function(){
+  var SRC='https://storage.googleapis.com/runable-templates/cli-uploads%2Fx8wZn6Nw4RyWsdkYGTh5IQjVi293hd26%2FDEg2J78cxHFuJ6rbv75Vk%2Ftrainer-app.js';
+  var CACHE='hanzi-hero-app-html', done=false;
+  function show(html){ if(done) return; done=true; document.open(); document.write(html); document.close(); }
+  function fromCache(){
+    var c=null; try{ c=localStorage.getItem(CACHE); }catch(e){}
+    if(c) show(c);
+    else document.getElementById('msg').innerHTML='Не получилось загрузить тренажёр 😕<br>Проверьте интернет и обновите страницу.';
+  }
+  var s=document.createElement('script');
+  s.src=SRC+'?v='+Math.floor(Date.now()/36e5);
+  s.onload=function(){
+    var html=window.__HANZI_APP_HTML;
+    if(typeof html==='string' && html.indexOf('hanzi-hero-v1')>0){
+      try{ localStorage.setItem(CACHE,html); }catch(e){}
+      show(html);
+    } else fromCache();
+  };
+  s.onerror=fromCache;
+  setTimeout(function(){ if(!done && !window.__HANZI_APP_HTML) fromCache(); },15000);
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>
